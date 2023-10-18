@@ -6,7 +6,7 @@
           class="card rounded-3 text-black d-flex justify-content-center align-items-center"
         >
           <!-- Form begin -->
-          <div class="row g-0">
+          <form class="row g-0" (ngSubmit)="onSubmit(Form)" #Form="ngForm">
             <div class="col">
               <div class="card-body p-md-5 mx-md-4">
                 <div class="text-center">
@@ -25,43 +25,91 @@
                       id="form2Example11"
                       class="form-control"
                       placeholder="Name"
+                      name="name"
                       [(ngModel)]="name"
+                      ngModel
+                      required
+                      minlength="3"
+                      pattern="^[A-Za-z\s'-]+$"
+                      #modelName="ngModel"
+                      [ngClass]="
+                        modelName.invalid && modelName.dirty
+                          ? 'is-invalid'
+                          : ''
+                      "
                     />
+                    <div
+                      *ngIf="modelName.invalid && modelName.dirty"
+                      class="invalid-feedback"
+                    >
+                      Please enter a valid name
+                    </div>
                   </div>
 
                   <div class="form-outline mb-4">
                     <input
                       type="email"
-                      id="form2Example22"
                       class="form-control"
                       placeholder="Email"
+                      name="email"
                       [(ngModel)]="email"
+                      ngModel
+                      required
+                      email
+                      pattern="^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$"
+                      #modelEmail="ngModel"
+                      [ngClass]="
+                        modelEmail.invalid && modelEmail.dirty
+                          ? 'is-invalid'
+                          : ''
+                      "
                     />
+                    <div
+                      *ngIf="modelEmail.invalid && modelEmail.dirty && modelEmail?.errors?.['required']"
+                      class="invalid-feedback"
+                    >
+                      Please enter a valid email
+                    </div>
                   </div>
 
                   <div class="form-outline mb-4">
                     <input
                       type="tel"
-                      id="form2Example22"
                       class="form-control"
                       placeholder="Phone Number"
+                      name="phoneNumber"
                       [(ngModel)]="phoneNumber"
+                      ngModel
+                      required
+                      pattern="^(?:(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|0)([6789]\d{9}))$"
+                      #modelPhoneNumber="ngModel"
+                      [ngClass]="
+                      modelPhoneNumber.invalid && modelPhoneNumber.dirty
+                        ? 'is-invalid'
+                        : ''
+                    "
                     />
+                    <div
+                    *ngIf="modelPhoneNumber.invalid && modelPhoneNumber.dirty"
+                    class="invalid-feedback"
+                  >
+                    Please enter a valid phone number
+                  </div>
                   </div>
 
                   <div class="text-center pt-1 mb-5 pb-1">
                     <button
                       class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
-                      type="button"
-                      (click)="addList()"
+                      type="submit"
+                      [disabled]="!Form.valid"
                     >
-                      {{btnName}}
+                      {{ btnName }}
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
@@ -91,12 +139,14 @@
             <p class="m-0 col-3">{{ i.phoneNumber }}</p>
 
             <div class="d-flex col-3">
-              <button class="btn btn-primary m-2" (click)="editList(i.id, i.name, i.email, i.phoneNumber)">Edit</button>
-    
               <button
-                class="btn btn-danger m-2"
-                (click)="deleteList(i.id)"
+                class="btn btn-primary m-2"
+                (click)="editList(i.id, i.name, i.email, i.phoneNumber)"
               >
+                Edit
+              </button>
+
+              <button class="btn btn-danger m-2" (click)="deleteList(i.id)">
                 Delete
               </button>
             </div>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Form } from 'src/app/model/form';
-
+import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -33,14 +33,29 @@ export class FormComponent {
       phoneNumber: 86562749031,
     }
   ];
+  error:string="";
+constructor(){}
+  onSubmit(loginForm:NgForm):void{
+    if(loginForm.value){
+      // console.log("in");
+     this.addList();
+     }
+     else{
+      this.error="Invalid Credentials";
+     }
+  }
+  
 
   getRandomNumber = (max = 1000): number => {
     return Math.floor(Math.random() * max);
   };
 
   addList = (): void => {
+    // console.log("in");
     if (this.editId === 0) {
+      // console.log("in");
       if (this.name !== '' && this.email !== '' && this.phoneNumber !== '') {
+        console.log("in");
         this.list.push({
           id: this.getRandomNumber(),
           name: this.name,
