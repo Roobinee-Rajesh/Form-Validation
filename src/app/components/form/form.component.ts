@@ -38,7 +38,7 @@ constructor(){}
   onSubmit(loginForm:NgForm):void{
     if(loginForm.value){
       // console.log("in");
-     this.addList();
+     this.addList(loginForm);
      }
      else{
       this.error="Invalid Credentials";
@@ -50,7 +50,7 @@ constructor(){}
     return Math.floor(Math.random() * max);
   };
 
-  addList = (): void => {
+  addList = (Form:NgForm): void => {
     // console.log("in");
     if (this.editId === 0) {
       // console.log("in");
@@ -78,6 +78,7 @@ constructor(){}
     this.phoneNumber = '';
     this.btnName="Add";
     this.editId = 0;
+    Form.resetForm();
   };
 
   deleteList = (id: number) => {
